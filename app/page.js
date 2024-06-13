@@ -1,4 +1,5 @@
 import Image from "next/image";
+//localhost:3000 - домашня сторінка
 
 export default function Home() {
   return (
