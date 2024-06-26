@@ -5,8 +5,18 @@ export const metadata = {
   description: "View and download free 3D models",
 };
 
-const layout = () => {
-  return <div>layout</div>;
+const RootLayout = ({ children }) => {
+  return (
+    <html lang="en">
+      <body>
+        <div className="main">
+          <div className="gradient" />
+        </div>
+
+        <main className="app">{children}</main>
+      </body>
+    </html>
+  );
 };
 
-export default layout;
+export default RootLayout;
