@@ -5,7 +5,6 @@ import MenuForHeader from "./Menu/Menu";
 const Header = () => {
   return (
     <div>
-      Header
       <MenuForHeader />
     </div>
   );

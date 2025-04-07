@@ -38,7 +38,7 @@ export default function MenuForHeader() {
           edge="start"
           color="inherit"
           onClick={toggleDrawer(true)}
-          className="lg:hidden"
+          className="block desktop:collapse "
         >
           <MenuIcon />
         </IconButton>
@@ -47,7 +47,7 @@ export default function MenuForHeader() {
         <Typography variant="h6">Мій сайт</Typography>
 
         {/* Десктопне меню */}
-        <div className="hidden lg:flex space-x-4">
+        <div className="collapse tablet:visible flex space-x-9">
           <MenuItem onClick={closeMenu}>Головна</MenuItem>
           <MenuItem onClick={closeMenu}>Про нас</MenuItem>
           <MenuItem onClick={closeMenu}>Контакти</MenuItem>
@@ -73,13 +73,13 @@ export default function MenuForHeader() {
       {/* Drawer (бічне меню) */}
       <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
         <List className="w-64">
-          <ListItem button onClick={toggleDrawer(false)}>
+          <ListItem component="button" onClick={() => toggleDrawer(false)}>
             <ListItemText primary="Головна" />
           </ListItem>
-          <ListItem button onClick={toggleDrawer(false)}>
+          <ListItem component="button" onClick={() => toggleDrawer(false)}>
             <ListItemText primary="Про нас" />
           </ListItem>
-          <ListItem button onClick={toggleDrawer(false)}>
+          <ListItem component="button" onClick={() => toggleDrawer(false)}>
             <ListItemText primary="Контакти" />
           </ListItem>
         </List>
