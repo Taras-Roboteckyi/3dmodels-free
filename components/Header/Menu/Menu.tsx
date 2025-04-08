@@ -55,7 +55,11 @@ export default function MenuForHeader() {
 
         {/* Випадаюче меню (для іконки профілю) */}
         <div>
-          <IconButton onClick={openMenu} color="inherit">
+          <IconButton
+            onClick={openMenu}
+            color="inherit"
+            className="block desktop:collapse"
+          >
             <MenuIcon />
           </IconButton>
           <Menu
@@ -63,7 +67,9 @@ export default function MenuForHeader() {
             open={Boolean(menuAnchor)}
             onClose={closeMenu}
           >
-            <MenuItem onClick={closeMenu}>Профіль</MenuItem>
+            <MenuItem onClick={closeMenu} className="visible ">
+              Профіль
+            </MenuItem>
             <MenuItem onClick={closeMenu}>Налаштування</MenuItem>
             <MenuItem onClick={closeMenu}>Вихід</MenuItem>
           </Menu>
