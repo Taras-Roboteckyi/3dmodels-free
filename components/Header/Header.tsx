@@ -1,11 +1,11 @@
 import React from "react";
 
-import MenuForHeader from "./Menu/Menu";
+import MenuHeader from "./Menu/Menu";
 
 const Header = () => {
   return (
     <div>
-      <MenuForHeader />
+      <MenuHeader />
     </div>
   );
 };

@@ -7,12 +7,10 @@ import {
   Typography,
   Menu,
   MenuItem,
-  Drawer,
-  List,
-  ListItem,
-  ListItemText,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
+
+import DrawerMenu from "./Drawer/Drawer";
 
 export default function MenuForHeader() {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -34,20 +32,17 @@ export default function MenuForHeader() {
     <AppBar position="static">
       <Toolbar className="flex justify-between">
         {/* Мобільне меню */}
-        <IconButton
-          edge="start"
-          color="inherit"
-          onClick={toggleDrawer(true)}
-          className="block desktop:collapse "
-        >
-          <MenuIcon />
-        </IconButton>
+        <div className="block desktop:hidden">
+          <IconButton edge="start" color="inherit" onClick={toggleDrawer(true)}>
+            <MenuIcon />
+          </IconButton>
+        </div>
 
         {/* Заголовок */}
         <Typography variant="h6">Мій сайт</Typography>
 
         {/* Десктопне меню */}
-        <div className="collapse tablet:visible flex space-x-9">
+        <div className="hidden tablet:flex space-x-9">
           <MenuItem onClick={closeMenu}>Головна</MenuItem>
           <MenuItem onClick={closeMenu}>Про нас</MenuItem>
           <MenuItem onClick={closeMenu}>Контакти</MenuItem>
@@ -58,7 +53,7 @@ export default function MenuForHeader() {
           <IconButton
             onClick={openMenu}
             color="inherit"
-            className="block desktop:collapse"
+            className="block desktop:hidden"
           >
             <MenuIcon />
           </IconButton>
@@ -67,9 +62,7 @@ export default function MenuForHeader() {
             open={Boolean(menuAnchor)}
             onClose={closeMenu}
           >
-            <MenuItem onClick={closeMenu} className="visible ">
-              Профіль
-            </MenuItem>
+            <MenuItem onClick={closeMenu}>Профіль</MenuItem>
             <MenuItem onClick={closeMenu}>Налаштування</MenuItem>
             <MenuItem onClick={closeMenu}>Вихід</MenuItem>
           </Menu>
@@ -77,19 +70,7 @@ export default function MenuForHeader() {
       </Toolbar>
 
       {/* Drawer (бічне меню) */}
-      <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
-        <List className="w-64">
-          <ListItem component="button" onClick={() => toggleDrawer(false)}>
-            <ListItemText primary="Головна" />
-          </ListItem>
-          <ListItem component="button" onClick={() => toggleDrawer(false)}>
-            <ListItemText primary="Про нас" />
-          </ListItem>
-          <ListItem component="button" onClick={() => toggleDrawer(false)}>
-            <ListItemText primary="Контакти" />
-          </ListItem>
-        </List>
-      </Drawer>
+      <DrawerMenu drawerOpen={drawerOpen} toggleDrawer={toggleDrawer} />
     </AppBar>
   );
 }
