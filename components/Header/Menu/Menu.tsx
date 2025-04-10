@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 
-import DrawerMenu from "./Drawer/Drawer";
+import DrawerMenu from "./Drawer/DrawerMenu";
 
 export default function MenuForHeader() {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -49,12 +49,8 @@ export default function MenuForHeader() {
         </div>
 
         {/* Випадаюче меню (для іконки профілю) */}
-        <div>
-          <IconButton
-            onClick={openMenu}
-            color="inherit"
-            className="block desktop:hidden"
-          >
+        <div className="block desktop:hidden">
+          <IconButton onClick={openMenu} color="inherit">
             <MenuIcon />
           </IconButton>
           <Menu
