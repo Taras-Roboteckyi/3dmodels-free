@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 
-import DrawerMenu from "./Drawer/DrawerMenu";
+import DrawerMenu from "./DrawerMenu/DrawerMenu";
 import Navigation from "./Navigation/Navigation";
 
 export default function MenuHeader() {
@@ -32,8 +32,8 @@ export default function MenuHeader() {
   return (
     <AppBar position="static">
       <Toolbar className="flex justify-between">
-        {/* Мобільне меню для Drawer (бічне меню)*/}
-        <div className="block desktop:hidden">
+        {/* Кнопка - перемикач для Drawer (бічне меню)*/}
+        <div className="block tablet:hidden">
           <IconButton edge="start" color="inherit" onClick={toggleDrawer(true)}>
             <MenuIcon />
           </IconButton>
@@ -42,7 +42,7 @@ export default function MenuHeader() {
         {/* Заголовок */}
         <Typography variant="h6">Мій сайт</Typography>
 
-        {/* Десктопне меню навігації*/}
+        {/* Меню навігації*/}
         <Navigation closeMenu={closeMenu} />
 
         {/* Випадаюче меню (для іконки профілю) */}
