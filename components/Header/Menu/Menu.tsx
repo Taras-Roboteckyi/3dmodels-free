@@ -1,17 +1,11 @@
 "use client";
 import { useState } from "react";
-import {
-  AppBar,
-  Toolbar,
-  IconButton,
-  Typography,
-  Menu,
-  MenuItem,
-} from "@mui/material";
+import { AppBar, Toolbar, IconButton, Typography } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 
 import DrawerMenu from "./DrawerMenu/DrawerMenu";
 import Navigation from "./Navigation/Navigation";
+import ProfileMenu from "./ProfileMenu/ProfileMenu";
 
 export default function MenuHeader() {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -47,18 +41,13 @@ export default function MenuHeader() {
 
         {/* Випадаюче меню (для іконки профілю) */}
         <div className="block desktop:hidden">
+          {/* Кнопка - перемикач для Випадаючого меню*/}
           <IconButton onClick={openMenu} color="inherit">
             <MenuIcon />
           </IconButton>
-          <Menu
-            anchorEl={menuAnchor}
-            open={Boolean(menuAnchor)}
-            onClose={closeMenu}
-          >
-            <MenuItem onClick={closeMenu}>Профіль</MenuItem>
-            <MenuItem onClick={closeMenu}>Налаштування</MenuItem>
-            <MenuItem onClick={closeMenu}>Вихід</MenuItem>
-          </Menu>
+
+          {/*  Випадаюче меню профілю */}
+          <ProfileMenu menuAnchor={menuAnchor} closeMenu={closeMenu} />
         </div>
       </Toolbar>
 
