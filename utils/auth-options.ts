@@ -15,8 +15,8 @@ export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async session({ session, token }) {
-      if (session.user) {
-        session.user.id = token.sub!; // додає id з токена в session.user// ! - Обіцяю TypeScript'у: "що я гарантую, що token.sub точно є" (бо Google завжди присилає sub.)
+      if (session.user && token.sub) {
+        session.user.id = token.sub; // додає id з токена в session.user//
       }
       return session;
     },

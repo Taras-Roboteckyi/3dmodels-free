@@ -1,16 +1,16 @@
-import React from "react";
+"use client";
+
+import { signIn, signOut, useSession } from "next-auth/react";
 
 import { Link } from "@mui/material";
 
 export default function AuthNav() {
-  return (
-    <div>
-      <Link href="#" underline="hover">
-        {"Ввійти"}
-      </Link>
-      <Link href="#" underline="hover">
-        {"Реєстрація"}
-      </Link>
+  const { data: session } = useSession();
+  return session ? (
+    <div className="flex items-center gap-4">
+      <p>Hello {session.user?.name}</p>
     </div>
+  ) : (
+    <div></div>
   );
 }
