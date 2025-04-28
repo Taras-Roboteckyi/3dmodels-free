@@ -9,8 +9,23 @@ export default function AuthNav() {
   return session ? (
     <div className="flex items-center gap-4">
       <p>Hello {session.user?.name}</p>
+      <Link
+        href="#"
+        underline="hover"
+        onClick={() => signOut({ callbackUrl: "/" })} //щоб користувач залишався на тій же сторінці після виходу додаєм callbackUrl.
+      >
+        Вийти
+      </Link>
     </div>
   ) : (
-    <div></div>
+    <div>
+      <Link
+        href="#"
+        underline="hover"
+        onClick={() => signIn("google", { callbackUrl: "/" })} //щоб користувач залишався на тій же сторінці після входу додаєм callbackUrl.
+      >
+        Увійти через Google
+      </Link>
+    </div>
   );
 }
