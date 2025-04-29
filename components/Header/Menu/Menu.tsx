@@ -6,6 +6,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import DrawerMenu from "./DrawerMenu/DrawerMenu";
 import Navigation from "./Navigation/Navigation";
 import ProfileMenu from "./ProfileMenu/ProfileMenu";
+import AuthNav from "./AuthNav/AuthNav";
 
 export default function MenuHeader() {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -45,7 +46,7 @@ export default function MenuHeader() {
           <IconButton onClick={openMenu} color="inherit">
             <MenuIcon />
           </IconButton>
-
+          <AuthNav />
           {/*  Випадаюче меню профілю */}
           <ProfileMenu menuAnchor={menuAnchor} closeMenu={closeMenu} />
         </div>

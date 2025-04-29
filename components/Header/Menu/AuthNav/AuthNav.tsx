@@ -18,13 +18,14 @@ export default function AuthNav() {
       </Link>
     </div>
   ) : (
-    <div>
+    <div className=" bg-white">
       <Link
         href="#"
         underline="hover"
+        className="text-white"
         onClick={() => signIn("google", { callbackUrl: "/" })} //щоб користувач залишався на тій же сторінці після входу додаєм callbackUrl.
       >
-        Увійти через Google
+        Sign in with Google
       </Link>
     </div>
   );

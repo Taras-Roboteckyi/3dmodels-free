@@ -1,5 +1,7 @@
 import "@styles/globals.css";
 
+import SessionProvider from "@components/Providers/SessionProvider";
+
 export const metadata = {
   title: "3D models",
   description: "View and download free 3D models",
@@ -19,7 +21,9 @@ export default function RootLayout({
         ></meta>
         <link rel="icon" href="/favicon.ico" />
       </head>
-      <body>{children}</body>
+      <body>
+        <SessionProvider>{children}</SessionProvider>
+      </body>
     </html>
   );
 }
