@@ -1,6 +1,7 @@
 "use client";
 
 import { signIn, signOut, useSession } from "next-auth/react";
+import Image from "next/image";
 
 import { Link } from "@mui/material";
 
@@ -19,6 +20,10 @@ export default function AuthNav() {
     </div>
   ) : (
     <div className=" bg-white">
+      <Image
+        src="../../../../public/images/icon-google-symbol.png"
+        alt="Google icon"
+      />
       <Link
         href="#"
         underline="hover"
