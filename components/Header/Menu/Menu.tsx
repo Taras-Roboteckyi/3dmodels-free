@@ -41,7 +41,7 @@ export default function MenuHeader() {
         <Navigation closeMenu={closeMenu} />
 
         {/* Випадаюче меню (для іконки профілю) */}
-        <div className="block desktop:hidden">
+        <div className="flex ">
           {/* Кнопка - перемикач для Випадаючого меню*/}
           <IconButton onClick={openMenu} color="inherit">
             <MenuIcon />

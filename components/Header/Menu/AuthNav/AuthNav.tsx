@@ -21,7 +21,9 @@ export default function AuthNav() {
   ) : (
     <div className=" bg-white">
       <Image
-        src="../../../../public/images/icon-google-symbol.png"
+        src="/images/icon-google-symbol.png"
+        width={40}
+        height={40}
         alt="Google icon"
       />
       <Link
