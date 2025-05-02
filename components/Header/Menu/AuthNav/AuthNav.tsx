@@ -3,20 +3,39 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 
-import { Link } from "@mui/material";
+import { Link, IconButton } from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
 
-export default function AuthNav() {
+import ProfileMenu from "../ProfileMenu/ProfileMenu";
+
+type Props = {
+  menuAnchor: null | HTMLElement;
+  closeMenu: () => void;
+  openMenu: (event: React.MouseEvent<HTMLButtonElement>) => void;
+};
+
+export default function AuthNav({ menuAnchor, openMenu, closeMenu }: Props) {
   const { data: session } = useSession();
   return session ? (
     <div className="flex items-center gap-4">
       <p>Hello {session.user?.name}</p>
-      <Link
+      {/* <Link
         href="#"
         underline="hover"
         onClick={() => signOut({ callbackUrl: "/" })} //щоб користувач залишався на тій же сторінці після виходу додаєм callbackUrl.
       >
         Вийти
-      </Link>
+      </Link> */}
+
+      {/* Випадаюче меню (для іконки профілю) */}
+
+      <IconButton onClick={openMenu} color="inherit">
+        {/* Кнопка - перемикач для випадаючого меню*/}
+        <MenuIcon />
+      </IconButton>
+
+      {/*  Випадаюче меню профілю */}
+      <ProfileMenu menuAnchor={menuAnchor} closeMenu={closeMenu} />
     </div>
   ) : (
     <div className=" bg-white">

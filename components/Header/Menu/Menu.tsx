@@ -5,7 +5,6 @@ import MenuIcon from "@mui/icons-material/Menu";
 
 import DrawerMenu from "./DrawerMenu/DrawerMenu";
 import Navigation from "./Navigation/Navigation";
-import ProfileMenu from "./ProfileMenu/ProfileMenu";
 import AuthNav from "./AuthNav/AuthNav";
 
 export default function MenuHeader() {
@@ -40,15 +39,13 @@ export default function MenuHeader() {
         {/* Меню навігації*/}
         <Navigation closeMenu={closeMenu} />
 
-        {/* Випадаюче меню (для іконки профілю) */}
+        {/* Меню для авторизації користувача */}
         <div className="flex ">
-          {/* Кнопка - перемикач для Випадаючого меню*/}
-          <IconButton onClick={openMenu} color="inherit">
-            <MenuIcon />
-          </IconButton>
-          <AuthNav />
-          {/*  Випадаюче меню профілю */}
-          <ProfileMenu menuAnchor={menuAnchor} closeMenu={closeMenu} />
+          <AuthNav
+            menuAnchor={menuAnchor}
+            openMenu={openMenu}
+            closeMenu={closeMenu}
+          />
         </div>
       </Toolbar>
 
