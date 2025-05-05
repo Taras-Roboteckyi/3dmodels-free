@@ -5,9 +5,10 @@ import { Menu, MenuItem } from "@mui/material";
 type Props = {
   menuAnchor: null | HTMLElement;
   closeMenu: () => void;
+  signOut: () => void;
 };
 
-const ProfileMenu = ({ menuAnchor, closeMenu }: Props) => {
+const ProfileMenu = ({ menuAnchor, closeMenu, signOut }: Props) => {
   return (
     <>
       <Menu
@@ -17,7 +18,7 @@ const ProfileMenu = ({ menuAnchor, closeMenu }: Props) => {
       >
         <MenuItem onClick={closeMenu}>Профіль</MenuItem>
         <MenuItem onClick={closeMenu}>Налаштування</MenuItem>
-        <MenuItem onClick={closeMenu}>Вихід</MenuItem>
+        <MenuItem onClick={signOut}>Вихід</MenuItem>
       </Menu>
     </>
   );

@@ -16,9 +16,12 @@ type Props = {
 
 export default function AuthNav({ menuAnchor, openMenu, closeMenu }: Props) {
   const { data: session } = useSession();
+
+  const name = session?.user?.name?.split(" ")[0] ?? "User"; //Якщо користувач є, тоді показуємо тільки перше слово (ім'я) користувача
+
   return session ? (
     <div className="flex items-center gap-4">
-      <p>Hello {session.user?.name}</p>
+      <p>Hello {name}</p>
       {/* <Link
         href="#"
         underline="hover"
@@ -35,7 +38,11 @@ export default function AuthNav({ menuAnchor, openMenu, closeMenu }: Props) {
       </IconButton>
 
       {/*  Випадаюче меню профілю */}
-      <ProfileMenu menuAnchor={menuAnchor} closeMenu={closeMenu} />
+      <ProfileMenu
+        menuAnchor={menuAnchor}
+        closeMenu={closeMenu}
+        signOut={() => signOut({ callbackUrl: "/" })} //Щоб користувач залишався на тій же сторінці після виходу додаєм callbackUrl
+      />
     </div>
   ) : (
     <div className=" bg-white">
