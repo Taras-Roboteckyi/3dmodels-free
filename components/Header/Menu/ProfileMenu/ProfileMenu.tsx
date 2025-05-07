@@ -53,13 +53,7 @@ type Props = {
 // Загальний стиль для пунктів меню
 const menuItemStyle = {
   "&:hover": {
-    backgroundColor: "#68c568",
-  },
-};
-
-const logoutItemStyle = {
-  "&:hover": {
-    backgroundColor: "#ffe5e5", // інший колір для виходу
+    backgroundColor: "#eee6f1",
   },
 };
 
@@ -121,7 +115,7 @@ const ProfileMenu = ({ menuAnchor, closeMenu, signOut }: Props) => {
           closeMenu();
           signOut();
         }}
-        sx={logoutItemStyle}
+        sx={menuItemStyle}
       >
         <ListItemIcon>
           <LogoutIcon fontSize="small" />

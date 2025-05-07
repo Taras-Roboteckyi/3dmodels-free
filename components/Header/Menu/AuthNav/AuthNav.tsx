@@ -45,20 +45,21 @@ export default function AuthNav({ menuAnchor, openMenu, closeMenu }: Props) {
       />
     </div>
   ) : (
-    <div className=" bg-white">
+    <div className="flex bg-inherit">
       <Image
         src="/images/icon-google-symbol.png"
-        width={40}
-        height={40}
+        width={20}
+        height={10}
         alt="Google icon"
+        className="m-2 rounded-full object-cover"
       />
       <Link
         href="#"
         underline="hover"
-        className="text-white"
+        sx={{ color: "white" }}
         onClick={() => signIn("google", { callbackUrl: "/" })} //щоб користувач залишався на тій же сторінці після входу додаєм callbackUrl.
       >
-        Sign in with Google
+        Sign in
       </Link>
     </div>
   );
