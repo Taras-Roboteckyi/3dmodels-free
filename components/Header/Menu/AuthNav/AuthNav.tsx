@@ -3,7 +3,7 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 
-import { Link, IconButton } from "@mui/material";
+import { Link, IconButton, Button } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 
 import ProfileMenu from "../ProfileMenu/ProfileMenu";
@@ -45,22 +45,30 @@ export default function AuthNav({ menuAnchor, openMenu, closeMenu }: Props) {
       />
     </div>
   ) : (
-    <div className="flex bg-inherit">
+    <Button
+      onClick={() => signIn("google", { callbackUrl: "/" })} //щоб користувач залишався на тій же сторінці після входу додаєм callbackUrl.
+      variant="contained"
+      sx={{
+        backgroundColor: "inherit",
+        textTransform: "none",
+        fontWeight: 500,
+        fontSize: "16px",
+        padding: "6px 12px",
+        display: "flex",
+        alignItems: "center",
+        gap: "8px",
+        "&:hover": {
+          backgroundColor: "#357ae8",
+        },
+      }}
+    >
       <Image
         src="/images/icon-google-symbol.png"
         width={20}
-        height={10}
+        height={20}
         alt="Google icon"
-        className="m-2 rounded-full object-cover"
       />
-      <Link
-        href="#"
-        underline="hover"
-        sx={{ color: "white" }}
-        onClick={() => signIn("google", { callbackUrl: "/" })} //щоб користувач залишався на тій же сторінці після входу додаєм callbackUrl.
-      >
-        Sign in
-      </Link>
-    </div>
+      Sign in
+    </Button>
   );
 }
