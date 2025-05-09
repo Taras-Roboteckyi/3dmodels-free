@@ -47,9 +47,8 @@ export default function AuthNav({ menuAnchor, openMenu, closeMenu }: Props) {
   ) : (
     <Button
       onClick={() => signIn("google", { callbackUrl: "/" })} //щоб користувач залишався на тій же сторінці після входу додаєм callbackUrl.
-      variant="contained"
+      variant="text"
       sx={{
-        backgroundColor: "inherit",
         textTransform: "none",
         fontWeight: 500,
         fontSize: "16px",
@@ -57,8 +56,10 @@ export default function AuthNav({ menuAnchor, openMenu, closeMenu }: Props) {
         display: "flex",
         alignItems: "center",
         gap: "8px",
+        color: "white",
         "&:hover": {
           backgroundColor: "#357ae8",
+          borderRadius: "2px",
         },
       }}
     >
