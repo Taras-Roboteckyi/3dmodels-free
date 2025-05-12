@@ -5,6 +5,9 @@ import Image from "next/image";
 
 import { Link, IconButton, Button } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
+import { CircularProgress } from "@mui/material";
+
+import { useState } from "react";
 
 import ProfileMenu from "../ProfileMenu/ProfileMenu";
 
@@ -16,6 +19,17 @@ type Props = {
 
 export default function AuthNav({ menuAnchor, openMenu, closeMenu }: Props) {
   const { data: session } = useSession();
+  const [loading, setLoading] = useState(false);
+
+  const handleSignIn = async () => {
+    setLoading(true);
+    try {
+      await signIn("google", { callbackUrl: "/" }); //щоб користувач залишався на тій же сторінці після входу додаєм callbackUrl.
+    } catch (error) {
+      console.error("Login failed", error);
+      setLoading(false); // якщо помилка
+    }
+  };
 
   const name = session?.user?.name?.split(" ")[0] ?? "User"; //Якщо користувач є, тоді показуємо тільки перше слово (ім'я) користувача
 
@@ -46,7 +60,7 @@ export default function AuthNav({ menuAnchor, openMenu, closeMenu }: Props) {
     </div>
   ) : (
     <Button
-      onClick={() => signIn("google", { callbackUrl: "/" })} //щоб користувач залишався на тій же сторінці після входу додаєм callbackUrl.
+      onClick={handleSignIn}
       variant="text"
       sx={{
         textTransform: "none",
@@ -63,13 +77,19 @@ export default function AuthNav({ menuAnchor, openMenu, closeMenu }: Props) {
         },
       }}
     >
-      <Image
-        src="/images/icon-google-symbol.png"
-        width={20}
-        height={20}
-        alt="Google icon"
-      />
-      Sign in
+      {loading ? (
+        <CircularProgress size="20" />
+      ) : (
+        <>
+          <Image
+            src="/images/icon-google-symbol.png"
+            width={20}
+            height={20}
+            alt="Google icon"
+          />
+          Sign in
+        </>
+      )}
     </Button>
   );
 }
