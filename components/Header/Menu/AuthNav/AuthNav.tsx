@@ -5,11 +5,11 @@ import Image from "next/image";
 
 import { Link, IconButton, Button } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import { CircularProgress } from "@mui/material";
 
 import { useState } from "react";
 
 import ProfileMenu from "../ProfileMenu/ProfileMenu";
+import AppLoader from "@components/Loader/Loader";
 
 type Props = {
   menuAnchor: null | HTMLElement;
@@ -78,7 +78,7 @@ export default function AuthNav({ menuAnchor, openMenu, closeMenu }: Props) {
       }}
     >
       {loading ? (
-        <CircularProgress size="20" />
+        <AppLoader />
       ) : (
         <>
           <Image
