@@ -79,7 +79,10 @@ const ProfileMenu = ({ menuAnchor, closeMenu, signOut }: Props) => {
       anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
       transformOrigin={{ vertical: "top", horizontal: "right" }}
     >
-      <MenuItem onClick={() => handleNavigate("/profile")} sx={menuItemStyle}>
+      <MenuItem
+        onClick={() => handleNavigate("/user/menu/profile")}
+        sx={menuItemStyle}
+      >
         <ListItemIcon>
           <PersonIcon fontSize="small" />
         </ListItemIcon>
