@@ -9,14 +9,14 @@ cloudinary.config({
 
 export async function POST(req: NextRequest) {
   const data = await req.formData();
-  const file = data.get("file") as File;
+  const file = data.get("file") as File; //Отримуємо файл із форми (multipart/form-data). Очікуємо, що він буде в полі file
 
   if (!file) {
     return NextResponse.json({ error: "No file provided" }, { status: 400 });
   }
 
   const bytes = await file.arrayBuffer();
-  const buffer = Buffer.from(bytes);
+  const buffer = Buffer.from(bytes); //Читаємо файл як ArrayBuffer і перетворюємо на Node.js Buffer — необхідний формат для upload_stream()
 
   try {
     const result = await new Promise((resolve, reject) => {
@@ -25,10 +25,10 @@ export async function POST(req: NextRequest) {
           if (error) return reject(error);
           resolve(result);
         })
-        .end(buffer);
+        .end(buffer); //Завантажуємо файл у Cloudinary в папку user_avatars. upload_stream() — створює потік, в який передаємо buffer
     });
 
-    return NextResponse.json(result);
+    return NextResponse.json(result); //Повертаємо клієнту результат — URL до зображення, публічне ім’я, розмір, формат тощо
   } catch (error) {
     return NextResponse.json({ error }, { status: 500 });
   }
