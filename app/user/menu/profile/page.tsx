@@ -1,4 +1,4 @@
-import UserAvatar from "@components/UserAvatar";
+import UserAvatar from "@components/Avatar/UserAvatar";
 import React from "react";
 
 export default function ProfilePage() {
