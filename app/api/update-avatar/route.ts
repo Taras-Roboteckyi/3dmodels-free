@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/utils/auth-options";
-import User from "@/models/User";
-import { connectToDB } from "@/lib/database";
+import { authOptions } from "@utils/auth-options";
+import { User } from "../../../models/User";
+import { connectToDB } from "../../../lib/database";
 
 // Оновлює поле image користувача в базі.
 
