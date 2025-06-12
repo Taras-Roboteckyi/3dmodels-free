@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { useSession } from "next-auth/react";
 
 export default function UploadAvatar() {
+  const { update } = useSession();
   const [image, setImage] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -24,17 +26,31 @@ export default function UploadAvatar() {
     formData.append("file", image);
 
     try {
+      // 1. Завантаження на Cloudinary
       const res = await fetch("/api/upload", {
         method: "POST",
         body: formData,
       });
 
       const data = await res.json();
-      if (data.secure_url) {
-        setUploadedUrl(data.secure_url);
-        // TODO: збереження URL в базу, наприклад:
-        // await saveImageToUser(data.secure_url);
-      }
+      if (!data.secure_url) throw new Error("Помилка при завантаженні");
+
+      // 2. Збереження URL у базу
+      const updateRes = await fetch("/api/update-avatar", {
+        method: "POST",
+        body: JSON.stringify({ image: data.secure_url }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!updateRes.ok) throw new Error("Помилка при оновленні профілю");
+
+      // 3. Оновлення сесії (щоб одразу підтягнувся новий аватар)
+      await update(); // ← оновить session.user.image
+
+      setUploadedUrl(data.secure_url);
+      // 2. Збереження URL у базу
     } catch (error) {
       console.error("Upload error:", error);
     } finally {
