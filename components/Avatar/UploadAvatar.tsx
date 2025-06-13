@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
 
 export default function UploadAvatar() {
   const { update } = useSession();
@@ -62,7 +63,7 @@ export default function UploadAvatar() {
     <div className="flex flex-col items-center gap-4">
       <input type="file" accept="image/*" onChange={handleChange} />
       {preview && (
-        <img
+        <Image
           src={preview}
           alt="Preview"
           className="w-32 h-32 rounded-full object-cover"
