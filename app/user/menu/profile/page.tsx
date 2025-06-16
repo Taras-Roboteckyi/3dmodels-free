@@ -1,9 +1,10 @@
 import UserAvatar from "@components/Avatar/UserAvatar";
+import { authOptions } from "../../../../utils/auth-options";
 
-import { useSession } from "next-auth/react";
+import { getServerSession } from "next-auth/next";
 
-export default function ProfilePage() {
-  const { data: session } = useSession();
+export default async function ProfilePage() {
+  const session = await getServerSession(authOptions);
   return (
     <div>
       <h1 className="text-2xl font-semibold">Мій профіль</h1>
