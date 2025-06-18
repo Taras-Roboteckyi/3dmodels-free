@@ -1,26 +1,25 @@
 "use client";
 
 import { useState } from "react";
-
-export function useUploadAvatar(onUploaded: (url: string) => void) {
-  const [image, setImage] = useState<File | null>(null);
+export function useUploadUrl(onUploaded?: (url: string) => void) {
+  const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      setImage(file);
+      setFile(file);
       setPreview(URL.createObjectURL(file));
     }
   };
 
   const handleUpload = async () => {
-    if (!image) return;
+    if (!file) return;
 
     setLoading(true);
     const formData = new FormData();
-    formData.append("file", image);
+    formData.append("file", file);
 
     try {
       const res = await fetch("/api/upload", {
@@ -29,20 +28,15 @@ export function useUploadAvatar(onUploaded: (url: string) => void) {
       });
 
       const data = await res.json();
-      if (!data.secure_url) throw new Error("Помилка при завантаженні");
-
-      onUploaded(data.secure_url); // 👈 Передаємо результат у компонент
-    } catch (error) {
-      console.error("Upload error:", error);
+      if (data.secure_url) {
+        onUploaded?.(data.secure_url); // 👈 Передаємо результат у компонент
+      }
+    } catch (err) {
+      console.error("Upload failed:", err);
     } finally {
       setLoading(false);
     }
   };
 
-  return {
-    preview,
-    loading,
-    handleChange,
-    handleUpload,
-  };
+  return { file, preview, loading, handleChange, handleUpload };
 }
