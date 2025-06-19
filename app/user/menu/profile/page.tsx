@@ -2,6 +2,7 @@ import UserAvatar from "@components/Avatar/UserAvatar";
 import { authOptions } from "../../../../utils/auth-options";
 
 import { getServerSession } from "next-auth/next";
+import UploadAvatar from "@components/Avatar/UploadAvatar";
 
 export default async function ProfilePage() {
   const session = await getServerSession(authOptions);
@@ -15,6 +16,7 @@ export default async function ProfilePage() {
           size={48}
         />
         <span>{session?.user?.name}</span>
+        <UploadAvatar />
       </div>
       {/* Тут контент профілю */}
     </div>

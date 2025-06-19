@@ -19,16 +19,24 @@ export async function POST(req: NextRequest) {
   }
 
   try {
+    console.log("Пробую підключитися до бази...");
     await connectToDB();
+    console.log("Підключення до бази успішне ✅");
 
     const updatedUser = await User.findOneAndUpdate(
       { email: session.user.email },
       { image: image },
       { new: true }
     );
+    if (!updatedUser) {
+      console.log("⚠️ Користувача не знайдено");
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
 
+    console.log("✅ Аватар оновлено:", updatedUser.image);
     return NextResponse.json({ user: updatedUser });
   } catch (error) {
+    console.error("❌ Server error:", error);
     return NextResponse.json(
       { error: "Failed to update avatar" },
       { status: 500 }
