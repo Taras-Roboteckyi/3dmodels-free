@@ -31,6 +31,12 @@ export const authOptions: NextAuthOptions = {
         session.user.id = token.sub as string; // додає id з токена в session.user//
         session.user.image = token.picture as string; // ← дозволяє оновлювати аватар
       }
+      const userFromDb = await User.findOne({ email: session.user.email });
+
+      if (userFromDb) {
+        session.user.id = userFromDb._id.toString();
+        session.user.image = userFromDb.image; // ← беремо з бази
+      }
       return session;
     },
     async signIn({ user }) {

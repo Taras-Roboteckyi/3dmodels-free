@@ -23,7 +23,8 @@ export default function UploadAvatar() {
 
       if (!updateRes.ok) throw new Error("Помилка при оновленні профілю");
 
-      await update(); // оновлюємо сесію
+      await update(); // оновлюємо сесію з сервера
+
       setUploadedUrl(secureUrl);
     },
     onError: (err) => {
