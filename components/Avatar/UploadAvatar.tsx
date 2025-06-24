@@ -2,12 +2,15 @@
 
 import Image from "next/image";
 import { useSession } from "next-auth/react";
-import { useUploadUrl } from "../../hooks/useUploadUrl";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+
+import { useUploadUrl } from "../../hooks/useUploadUrl";
 
 export default function UploadAvatar() {
   const { update } = useSession();
   const [uploadedUrl, setUploadedUrl] = useState<string | null>(null);
+  const router = useRouter();
 
   const { preview, loading, handleChange, handleUpload } = useUploadUrl({
     uploadEndpoint: "/api/upload-avatar",
@@ -24,7 +27,7 @@ export default function UploadAvatar() {
       if (!updateRes.ok) throw new Error("Помилка при оновленні профілю");
 
       await update(); // оновлюємо сесію з сервера
-
+      router.refresh(); // оновлюємо сторінку, щоб автоматично відобразити нову аватарку
       setUploadedUrl(secureUrl);
     },
     onError: (err) => {
