@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { useUploadUrl } from "../../hooks/useUploadUrl";
+import AppLoader from "@components/Loader/Loader";
 
 export default function UploadAvatar() {
   const { update } = useSession();

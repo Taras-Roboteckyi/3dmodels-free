@@ -26,7 +26,7 @@ export function useUploadUrl({
     const selected = e.target.files?.[0];
     if (selected) {
       setFile(selected);
-      setPreview(URL.createObjectURL(selected));
+      setPreview(URL.createObjectURL(selected)); // створюємо попередній перегляд зображення
     }
   };
 
