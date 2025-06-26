@@ -10,6 +10,7 @@ import { useState } from "react";
 
 import ProfileMenu from "../ProfileMenu/ProfileMenu";
 import AppLoader from "@components/Loader/Loader";
+import UserAvatar from "@components/Avatar/UserAvatar";
 
 type Props = {
   menuAnchor: null | HTMLElement;
@@ -36,16 +37,14 @@ export default function AuthNav({ menuAnchor, openMenu, closeMenu }: Props) {
   return session ? (
     <div className="flex items-center gap-4">
       <p>Hello {name}</p>
-      {/* <Link
-        href="#"
-        underline="hover"
-        onClick={() => signOut({ callbackUrl: "/" })} //щоб користувач залишався на тій же сторінці після виходу додаєм callbackUrl.
-      >
-        Вийти
-      </Link> */}
+
+      <UserAvatar
+        image={session?.user?.image || undefined}
+        name={session?.user?.name || "User"}
+        size={48}
+      />
 
       {/* Випадаюче меню (для іконки профілю) */}
-
       <IconButton onClick={openMenu} color="inherit">
         {/* Кнопка - перемикач для випадаючого меню*/}
         <MenuIcon />
