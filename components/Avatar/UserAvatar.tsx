@@ -5,13 +5,15 @@ import Image from "next/image";
 type UserAvatarProps = {
   image?: string | null;
   name?: string | " ";
-  size?: number; // опціональний розмір (default = 40)
+  size?: number;
+  styleClass?: string;
 };
 
 export default function UserAvatar({
   image,
   name = "User",
   size = 40,
+  styleClass = "",
 }: UserAvatarProps) {
   // Якщо не передано зображення, генеруємо аватарку за допомогою UI Avatars
 
@@ -27,7 +29,7 @@ export default function UserAvatar({
       alt={name}
       width={size}
       height={size}
-      className="rounded-full object-cover"
+      className={`object-cover ${styleClass}`}
     />
   );
 }

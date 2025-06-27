@@ -41,7 +41,8 @@ export default function AuthNav({ menuAnchor, openMenu, closeMenu }: Props) {
       <UserAvatar
         image={session?.user?.image || undefined}
         name={session?.user?.name || "User"}
-        size={48}
+        size={30}
+        styleClass="rounded-full"
       />
 
       {/* Випадаюче меню (для іконки профілю) */}
