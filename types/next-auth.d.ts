@@ -4,16 +4,20 @@ declare module "next-auth" {
   interface Session {
     user: {
       id: string;
-      name?: string | null;
-      email?: string | null;
-      image?: string | null;
+      name: string;
+      surname?: string;
+      description?: string;
+      email?: string;
+      image?: string;
     };
   }
 
   interface User {
     id: string;
-    name?: string | null;
-    email?: string | null;
-    image?: string | null;
+    name: string;
+    surname?: string;
+    description?: string;
+    email?: string;
+    image?: string;
   }
 }

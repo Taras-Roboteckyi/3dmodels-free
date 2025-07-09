@@ -5,7 +5,9 @@ const UserSchema = new Schema({
   email: { type: String, required: true, unique: true },
   name: { type: String },
   image: { type: String },
-  bio: { type: String }, // Додаткове поле, яке користувач може редагувати
+  surname: { type: String }, // Додаткове поле, яке користувач може редагувати
+  description: { type: String }, // Додаткове поле, яке користувач може редагувати
+
   createdAt: { type: Date, default: Date.now },
 });
 
