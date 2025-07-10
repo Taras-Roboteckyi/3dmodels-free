@@ -13,7 +13,7 @@ export default function ProfilePage() {
   //const session = await getServerSession(authOptions);
 
   if (!session) {
-    return <div>Завантаження...</div>; // або Loading spinner
+    return <div>Loading...</div>; // або Loading spinner
   }
 
   const handleSubmit = async (formData: FormData) => {
@@ -27,14 +27,14 @@ export default function ProfilePage() {
       });
 
       if (!res.ok) {
-        throw new Error("Не вдалося оновити профіль");
+        throw new Error("Failed to update profile");
       }
 
       await update(); // 🔁 оновлення session
-      alert("Профіль успішно оновлено!");
+      alert("Profile successfully updated!");
     } catch (error) {
-      console.error("Помилка при оновленні:", error);
-      alert("Сталася помилка. Спробуйте ще раз.");
+      console.error("Update error:", error);
+      alert("An error occurred. Please try again.");
     }
   };
 
@@ -57,7 +57,6 @@ export default function ProfilePage() {
           name: session.user.name || "",
           surname: session.user.surname || "",
           description: session.user.description || "",
-          avatarUrl: session.user.image || "",
         }}
         onSubmit={handleSubmit}
       />
