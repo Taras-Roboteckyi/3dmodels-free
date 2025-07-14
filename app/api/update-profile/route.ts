@@ -12,22 +12,16 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const body = await req.json(); // Отримуємо дані з тіла запиту
-    const { name, surname, description } = body;
-
-    if (!name) {
-      return NextResponse.json({ error: "Name is required" }, { status: 400 });
-    }
+    const formData = await req.formData();
+    const name = formData.get("name") as string;
+    const surname = formData.get("surname") as string;
+    const description = formData.get("description") as string;
 
     await connectToDB();
 
     const updatedUser = await User.findOneAndUpdate(
       { email: session.user.email },
-      {
-        name,
-        surname,
-        description,
-      },
+      { name, surname, description },
       { new: true }
     );
 
@@ -35,11 +29,14 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
-    return NextResponse.json({ message: "Profile updated", user: updatedUser });
+    return NextResponse.json({
+      message: "✅ Profile updated",
+      user: updatedUser,
+    });
   } catch (error) {
-    console.error("❌ Error updating profile:", error);
+    console.error("❌ Update profile error:", error);
     return NextResponse.json(
-      { error: "Internal Server Error" },
+      { error: "Failed to update profile" },
       { status: 500 }
     );
   }
