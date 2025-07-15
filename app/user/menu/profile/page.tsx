@@ -20,11 +20,11 @@ export default function ProfilePage() {
     try {
       const res = await fetch("/api/update-profile", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+        body: formData,
       });
+
+      const data = await res.json(); // ⬅️
+      console.log("🔄 Response:", data); // ⬅️
 
       if (!res.ok) {
         throw new Error("Failed to update profile");
