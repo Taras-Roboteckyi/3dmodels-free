@@ -21,15 +21,36 @@ export const authOptions: NextAuthOptions = {
       // Коли користувач логіниться вперше
       if (user) {
         token.sub = user.id;
+        token.email = user.email;
+        token.name = user.name; // додаємо ім'я
         token.picture = user.image; // ← додаємо зображення
+      }
+
+      // 🔄 Отримання актуальних даних з бази
+      try {
+        await connectToDB();
+        const dbUser = await User.findOne({ email: token.email });
+
+        if (dbUser) {
+          token.name = dbUser.name;
+          token.surname = dbUser.surname;
+          token.description = dbUser.description;
+          token.picture = dbUser.image;
+          token.sub = dbUser._id.toString(); // про всяк випадок
+        }
+      } catch (error) {
+        console.error("❌ JWT DB Error:", error);
       }
 
       return token;
     },
+
     async session({ session, token }) {
       if (session.user) {
         session.user.id = token.sub as string; // додає id з токена в session.user//
         session.user.image = token.picture as string; // ← дозволяє оновлювати аватар
+        session.user.name = token.name as string; // додає ім'я з токена в session.user
+        session.user.surname = token.surname as string; // додає прізвище з токена в session.user
       }
       //Коли юзер перезаходить → завжди отримає актуальну аватарку з бази
       const userFromDb = await User.findOne({ email: session.user.email });

@@ -24,6 +24,7 @@ export async function POST(req: NextRequest) {
       { name, surname, description },
       { new: true }
     );
+    console.log("✅ Updated user:", updatedUser);
 
     if (!updatedUser) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
