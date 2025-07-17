@@ -33,8 +33,11 @@ const EditProfileForm = ({ initialData, onSubmit }: EditProfileFormProps) => {
         <input
           type="text"
           value={name}
+          placeholder="Введіть ім’я"
           onChange={(e) => setName(e.target.value)}
-          className="border p-2 w-full"
+          required
+          minLength={2}
+          className="border p-2 w-full rounded"
         />
       </div>
 
@@ -43,8 +46,10 @@ const EditProfileForm = ({ initialData, onSubmit }: EditProfileFormProps) => {
         <input
           type="text"
           value={surname}
+          placeholder="Введіть прізвище"
           onChange={(e) => setSurname(e.target.value)}
-          className="border p-2 w-full"
+          minLength={2}
+          className="border p-2 w-full rounded"
         />
       </div>
 
@@ -52,14 +57,17 @@ const EditProfileForm = ({ initialData, onSubmit }: EditProfileFormProps) => {
         <label>Опис:</label>
         <textarea
           value={description}
+          placeholder="Коротко про себе"
           onChange={(e) => setDescription(e.target.value)}
-          className="border p-2 w-full"
+          maxLength={500}
+          rows={4}
+          className="border p-2 w-full rounded"
         />
       </div>
 
       <button
         type="submit"
-        className="bg-blue-500 text-white px-4 py-2 rounded"
+        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
       >
         Зберегти зміни
       </button>
