@@ -49,6 +49,7 @@ export default function ProfilePage() {
           size={48}
         />
         <span>{session.user.name}</span>
+
         <UploadAvatar />
       </div>
 
