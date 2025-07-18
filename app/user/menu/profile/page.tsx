@@ -39,28 +39,30 @@ export default function ProfilePage() {
   };
 
   return (
-    <div>
-      <h1 className="text-2xl font-semibold">Мій профіль</h1>
+    <div className="container mx-auto p-4">
+      <h1 className="text-2xl font-semibold ">Мій профіль</h1>
 
-      <div className="flex items-center gap-2 mb-4">
-        <UserAvatar
-          image={session.user.image || undefined}
-          name={session.user.name || "User"}
-          size={48}
+      <div className="tablet:flex  items-center mt-6">
+        <div className="flex items-center gap-2 mb-4">
+          <UserAvatar
+            image={session.user.image || undefined}
+            name={session.user.name || "User"}
+            size={48}
+          />
+          <span>{session.user.name}</span>
+
+          <UploadAvatar />
+        </div>
+
+        <EditProfileForm
+          initialData={{
+            name: session.user.name || "",
+            surname: session.user.surname || "",
+            description: session.user.description || "",
+          }}
+          onSubmit={handleSubmit}
         />
-        <span>{session.user.name}</span>
-
-        <UploadAvatar />
       </div>
-
-      <EditProfileForm
-        initialData={{
-          name: session.user.name || "",
-          surname: session.user.surname || "",
-          description: session.user.description || "",
-        }}
-        onSubmit={handleSubmit}
-      />
     </div>
   );
 }
