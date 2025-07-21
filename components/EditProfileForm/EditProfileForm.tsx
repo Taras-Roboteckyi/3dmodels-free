@@ -1,5 +1,10 @@
-import React from "react";
-import { useState } from "react";
+import { useForm } from "react-hook-form";
+
+type FormValues = {
+  name: string;
+  surname: string;
+  description: string;
+};
 
 type EditProfileFormProps = {
   initialData: {
@@ -7,62 +12,73 @@ type EditProfileFormProps = {
     surname: string;
     description: string;
   };
-  onSubmit: (updatedData: FormData) => void | Promise<void>;
+  onSubmit: (formData: FormData) => void | Promise<void>;
 };
 
 const EditProfileForm = ({ initialData, onSubmit }: EditProfileFormProps) => {
-  const [name, setName] = useState(initialData.name || "");
-  const [surname, setSurname] = useState(initialData.surname || "");
-  const [description, setDescription] = useState(initialData.description || "");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormValues>({
+    defaultValues: initialData,
+  });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
+  const onValidSubmit = (data: FormValues) => {
     const formData = new FormData(); //стандартний Web API, який дозволяє створювати об'єкт з полями форми. FormData — зручно передає текст і файли на бекенд
-    formData.append("name", name); // додає текстове поле до FormData
-    formData.append("surname", surname);
-    formData.append("description", description);
+    formData.append("name", data.name); // додає текстове поле до FormData
+    formData.append("surname", data.surname);
+    formData.append("description", data.description);
 
     onSubmit(formData);
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit(onValidSubmit)} className="space-y-4">
       <div>
         <label>Ім’я:</label>
         <input
           type="text"
-          value={name}
           placeholder="Введіть ім’я"
-          onChange={(e) => setName(e.target.value)}
-          required
-          minLength={2}
+          {...register("name", {
+            required: "Ім’я обов’язкове",
+            minLength: { value: 2, message: "Мінімум 2 символи" },
+          })}
           className="border p-2 w-full rounded"
         />
+        {errors.name && (
+          <p className="text-red-500 text-sm">{errors.name.message}</p>
+        )}
       </div>
 
       <div>
         <label>Прізвище:</label>
         <input
           type="text"
-          value={surname}
           placeholder="Введіть прізвище"
-          onChange={(e) => setSurname(e.target.value)}
-          minLength={2}
+          {...register("surname", {
+            minLength: { value: 2, message: "Мінімум 2 символи" },
+          })}
           className="border p-2 w-full rounded"
         />
+        {errors.surname && (
+          <p className="text-red-500 text-sm">{errors.surname.message}</p>
+        )}
       </div>
 
       <div>
         <label>Опис:</label>
         <textarea
-          value={description}
           placeholder="Коротко про себе"
-          onChange={(e) => setDescription(e.target.value)}
-          maxLength={500}
           rows={4}
+          {...register("description", {
+            maxLength: { value: 500, message: "Максимум 500 символів" },
+          })}
           className="border p-2 w-full rounded"
         />
+        {errors.description && (
+          <p className="text-red-500 text-sm">{errors.description.message}</p>
+        )}
       </div>
 
       <button
