@@ -35,7 +35,7 @@ const EditProfileForm = ({ initialData, onSubmit }: EditProfileFormProps) => {
 
   return (
     <form onSubmit={handleSubmit(onValidSubmit)} className="space-y-4">
-      <div>
+      <div /* className="max-w-md mx-auto px-4" */>
         <label>Ім’я:</label>
         <input
           type="text"
