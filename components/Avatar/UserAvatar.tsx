@@ -7,6 +7,7 @@ type UserAvatarProps = {
   name?: string | " ";
   size?: number;
   styleClass?: string;
+  fill?: boolean;
 };
 
 export default function UserAvatar({
@@ -14,6 +15,7 @@ export default function UserAvatar({
   name = "User",
   size = 40,
   styleClass = "",
+  fill = false,
 }: UserAvatarProps) {
   // Якщо не передано зображення, генеруємо аватарку за допомогою UI Avatars
 
@@ -27,9 +29,8 @@ export default function UserAvatar({
     <Image
       src={image || placeholder}
       alt={name}
-      width={size}
-      height={size}
-      className={`object-cover ${styleClass}`}
+      className="object-cover"
+      {...(fill ? { fill: true } : { width: size, height: size })}
     />
   );
 }
