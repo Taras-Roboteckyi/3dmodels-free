@@ -35,15 +35,16 @@ export default function AuthNav({ menuAnchor, openMenu, closeMenu }: Props) {
   const name = session?.user?.name?.split(" ")[0] ?? "User"; //Якщо користувач є, тоді показуємо тільки перше слово (ім'я) користувача
 
   return session ? (
-    <div className="flex items-center gap-4">
-      <p>Hello {name}</p>
-
-      <UserAvatar
-        image={session?.user?.image || undefined}
-        name={session?.user?.name || "User"}
-        size={30}
-        styleClass="rounded-full"
-      />
+    <div className=" tablet:flex items-center gap-4">
+      <div className="hidden tablet:flex items-center gap-2">
+        <p>Hello {name}</p>
+        <UserAvatar
+          image={session?.user?.image || undefined}
+          name={session?.user?.name || "User"}
+          size={30}
+          styleClass="rounded-full"
+        />
+      </div>
 
       {/* Випадаюче меню (для іконки профілю) */}
       <IconButton onClick={openMenu} color="inherit">
