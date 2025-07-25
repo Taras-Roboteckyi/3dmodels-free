@@ -43,7 +43,7 @@ export default function ProfilePage() {
       <h1 className="text-2xl font-semibold ">Мій профіль</h1>
 
       <div className=" tablet:flex  items-center mt-6">
-        <div className=" tablet:flex items-center gap-2 ">
+        <div className=" tablet:flex items-center gap-2 mb-4">
           <div className="relative w-100 h-60 rounded-3 overflow-hidden mb-5 tablet:w-80 tablet:h-80 tablet:mb-0">
             <UserAvatar
               image={session.user.image || undefined}

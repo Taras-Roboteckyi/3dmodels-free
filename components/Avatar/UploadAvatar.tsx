@@ -1,5 +1,5 @@
 "use client";
-
+import { useRef } from "react";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
@@ -11,6 +11,8 @@ import AppLoader from "@components/Loader/Loader";
 export default function UploadAvatar() {
   const { update } = useSession();
   const [uploadedUrl, setUploadedUrl] = useState<string | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const router = useRouter();
 
   const { preview, loading, handleChange, handleUpload } = useUploadUrl({
@@ -36,10 +38,32 @@ export default function UploadAvatar() {
     },
   });
 
-  return (
-    <div className="flex flex-col items-center gap-4">
-      <input type="file" accept="image/*" onChange={handleChange} />
+  const handleLabelClick = () => {
+    if (!loading && inputRef.current) {
+      inputRef.current.click();
+    }
+  };
 
+  return (
+    <div className="flex  justify-center gap-4 ">
+      <label
+        className={`cursor-pointer inline-block px-4 py-2 rounded text-white transition 
+    ${
+      loading
+        ? "bg-blue-300 pointer-events-none opacity-50"
+        : "bg-blue-600 hover:bg-blue-700"
+    }`}
+        onClick={handleLabelClick}
+      >
+        Вибрати файл
+        <input
+          type="file"
+          accept="image/*"
+          className="hidden"
+          onChange={handleChange}
+          disabled={loading}
+        />
+      </label>
       {preview && (
         <Image
           src={preview}
@@ -53,7 +77,12 @@ export default function UploadAvatar() {
       <button
         onClick={handleUpload}
         disabled={loading}
-        className="px-4 py-2 bg-blue-600 text-white rounded"
+        className={`px-4 py-2 rounded text-white transition 
+    ${
+      loading
+        ? "bg-blue-300 cursor-not-allowed"
+        : "bg-blue-600 hover:bg-blue-700"
+    }`}
       >
         {loading ? "Завантаження..." : "Завантажити"}
       </button>
