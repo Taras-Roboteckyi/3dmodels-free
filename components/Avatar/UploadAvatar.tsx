@@ -47,16 +47,16 @@ export default function UploadAvatar() {
   return (
     <div className="flex  justify-center gap-4 ">
       <label
-        className={`cursor-pointer inline-block px-4 py-2 rounded text-white transition 
-    ${
-      loading
-        ? "bg-blue-300 pointer-events-none opacity-50"
-        : "bg-blue-600 hover:bg-blue-700"
-    }`}
         onClick={handleLabelClick}
+        className={`inline-block px-4 py-2 rounded text-white transition ${
+          loading
+            ? "bg-blue-300 cursor-not-allowed opacity-50"
+            : "bg-blue-600 hover:bg-blue-700"
+        }`}
       >
         Вибрати файл
         <input
+          ref={inputRef}
           type="file"
           accept="image/*"
           className="hidden"
