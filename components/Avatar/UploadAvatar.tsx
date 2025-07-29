@@ -12,10 +12,16 @@ export default function UploadAvatar() {
   const { update } = useSession();
   const [uploadedUrl, setUploadedUrl] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const [fileSelected, setFileSelected] = useState(false);
 
   const router = useRouter();
 
-  const { preview, loading, handleChange, handleUpload } = useUploadUrl({
+  const {
+    preview,
+    loading,
+    handleChange: originalHandleChange,
+    handleUpload,
+  } = useUploadUrl({
     uploadEndpoint: "/api/upload-avatar",
     onSuccess: async (secureUrl) => {
       // Зберігаємо URL в базу
@@ -32,6 +38,7 @@ export default function UploadAvatar() {
       await update(); // оновлюємо сесію з сервера
       router.refresh(); // оновлюємо сторінку, щоб автоматично відобразити нову аватарку
       setUploadedUrl(secureUrl);
+      setFileSelected(false); // Повертаємо до початкового стану
     },
     onError: (err) => {
       console.error("Upload error:", err);
@@ -39,19 +46,34 @@ export default function UploadAvatar() {
   });
 
   const handleLabelClick = () => {
-    if (!loading && inputRef.current) {
+    if (!loading && !fileSelected && inputRef.current) {
       inputRef.current.click();
     }
   };
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setFileSelected(true);
+      originalHandleChange(e);
+    }
+
+    // 🔥 Скидаємо input шляхом заміни на новий елемент
+    const newInput = e.target.cloneNode() as HTMLInputElement;
+    e.target.parentNode?.replaceChild(newInput, e.target);
+    newInput.onchange = (ev: Event) => {
+      handleFileChange(ev as unknown as React.ChangeEvent<HTMLInputElement>);
+    };
+    inputRef.current = newInput;
+  };
 
   return (
-    <div className="flex  justify-center gap-4 ">
+    <div className="flex flex-col items-center gap-4">
+      {/* Вибрати файл */}
       <label
         onClick={handleLabelClick}
         className={`inline-block px-4 py-2 rounded text-white transition ${
-          loading
-            ? "bg-blue-300 cursor-not-allowed opacity-50"
-            : "bg-blue-600 hover:bg-blue-700"
+          loading || fileSelected
+            ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+            : "bg-blue-600 hover:bg-blue-700 cursor-pointer"
         }`}
       >
         Вибрати файл
@@ -60,10 +82,12 @@ export default function UploadAvatar() {
           type="file"
           accept="image/*"
           className="hidden"
-          onChange={handleChange}
-          disabled={loading}
+          onChange={handleFileChange}
+          disabled={loading || fileSelected}
         />
       </label>
+
+      {/* Прев’ю */}
       {preview && (
         <Image
           src={preview}
@@ -74,19 +98,20 @@ export default function UploadAvatar() {
         />
       )}
 
+      {/* Завантажити */}
       <button
         onClick={handleUpload}
-        disabled={loading}
-        className={`px-4 py-2 rounded text-white transition 
-    ${
-      loading
-        ? "bg-blue-300 cursor-not-allowed"
-        : "bg-blue-600 hover:bg-blue-700"
-    }`}
+        disabled={!fileSelected || loading}
+        className={`px-4 py-2 rounded text-white transition ${
+          !fileSelected || loading
+            ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+            : "bg-green-600 hover:bg-green-700"
+        }`}
       >
         {loading ? "Завантаження..." : "Завантажити"}
       </button>
 
+      {/* Повідомлення */}
       {uploadedUrl && (
         <p className="text-green-600 text-sm">Фото успішно завантажено!</p>
       )}
