@@ -45,6 +45,9 @@ export default function UploadAvatar() {
       router.refresh(); // оновлюємо сторінку, щоб автоматично відобразити нову аватарку
       setUploadedUrl(secureUrl);
       setFileSelected(false); // Повертаємо до початкового стану
+
+      // 🔽 Автоматичне приховання повідомлення через 3 секунди
+      setTimeout(() => setUploadedUrl(null), 3000);
     },
     onError: (err) => {
       console.error("Upload error:", err);
@@ -60,10 +63,11 @@ export default function UploadAvatar() {
     if (e.target.files && e.target.files.length > 0) {
       setFileSelected(true);
       originalHandleChange(e);
+      /* setUploadedUrl("false"); */
     }
 
     // Скидаємо input — перегенеровуємо ключ
-    setInputKey(Date.now());
+    /* setInputKey(Date.now()); */
   };
 
   return (
@@ -79,7 +83,7 @@ export default function UploadAvatar() {
       >
         Вибрати файл
         <input
-          key={inputKey}
+          /*  key={inputKey} */
           ref={inputRef}
           type="file"
           accept="image/*"
