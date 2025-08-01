@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useCallback } from "react";
+
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
@@ -11,16 +11,9 @@ import AppLoader from "@components/Loader/Loader";
 export default function UploadAvatar() {
   const { update } = useSession();
   const [uploadedUrl, setUploadedUrl] = useState<string | null>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
   const [fileSelected, setFileSelected] = useState(false);
-  const [inputKey, setInputKey] = useState(Date.now());
 
   const router = useRouter();
-
-  // Ставимо callback ref, щоб він оновлювався при кожному render
-  const setInputRef = useCallback((node: HTMLInputElement | null) => {
-    inputRef.current = node;
-  }, []);
 
   const {
     preview,
@@ -54,27 +47,17 @@ export default function UploadAvatar() {
     },
   });
 
-  /* const handleLabelClick = () => {
-     if (!loading && !fileSelected && inputRef.current) {
-      inputRef.current.click();
-    }
-  }; */
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       setFileSelected(true);
       originalHandleChange(e);
-      /* setUploadedUrl("false"); */
     }
-
-    // Скидаємо input — перегенеровуємо ключ
-    /* setInputKey(Date.now()); */
   };
 
   return (
     <div className="flex flex-col items-center gap-4">
       {/* Вибрати файл */}
       <label
-        /* onClick={handleLabelClick} */
         className={`inline-block px-4 py-2 rounded text-white transition ${
           loading || fileSelected
             ? "bg-gray-300 text-gray-500 cursor-not-allowed"
@@ -83,8 +66,6 @@ export default function UploadAvatar() {
       >
         Вибрати файл
         <input
-          /*  key={inputKey} */
-          ref={inputRef}
           type="file"
           accept="image/*"
           className="hidden"
