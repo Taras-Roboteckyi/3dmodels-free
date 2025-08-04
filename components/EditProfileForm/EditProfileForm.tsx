@@ -1,3 +1,5 @@
+import React, { useEffect } from "react";
+
 import { useForm } from "react-hook-form";
 
 type FormValues = {
@@ -7,11 +9,8 @@ type FormValues = {
 };
 
 type EditProfileFormProps = {
-  initialData: {
-    name: string;
-    surname: string;
-    description: string;
-  };
+  initialData: FormValues;
+
   onSubmit: (formData: FormData) => void | Promise<void>;
 };
 
@@ -20,9 +19,16 @@ const EditProfileForm = ({ initialData, onSubmit }: EditProfileFormProps) => {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<FormValues>({
     defaultValues: initialData,
   });
+
+  // 👇 ОНОВЛЮЄ форму, якщо initialData змінюється
+  useEffect(() => {
+    console.log("initialData змінилось", initialData);
+    reset(initialData);
+  }, [initialData, reset]);
 
   const onValidSubmit = (data: FormValues) => {
     const formData = new FormData(); //стандартний Web API, який дозволяє створювати об'єкт з полями форми. FormData — зручно передає текст і файли на бекенд
@@ -34,15 +40,19 @@ const EditProfileForm = ({ initialData, onSubmit }: EditProfileFormProps) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onValidSubmit)} className="space-y-4">
+    <form
+      onSubmit={handleSubmit(onValidSubmit)}
+      autoComplete="off"
+      className="space-y-4"
+    >
       <div /* className="max-w-md mx-auto px-4" */>
-        <label>Ім’я:</label>
+        <label>First Name:</label>
         <input
           type="text"
-          placeholder="Введіть ім’я"
+          placeholder="Enter a first name"
           {...register("name", {
-            required: "Ім’я обов’язкове",
-            minLength: { value: 2, message: "Мінімум 2 символи" },
+            required: "The first name is required",
+            minLength: { value: 2, message: "Minimum 2 characters" },
           })}
           className="border p-2 w-full rounded"
         />
@@ -52,12 +62,12 @@ const EditProfileForm = ({ initialData, onSubmit }: EditProfileFormProps) => {
       </div>
 
       <div>
-        <label>Прізвище:</label>
+        <label>Last Name:</label>
         <input
           type="text"
-          placeholder="Введіть прізвище"
+          placeholder="Enter a last name"
           {...register("surname", {
-            minLength: { value: 2, message: "Мінімум 2 символи" },
+            minLength: { value: 2, message: "Minimum 2 characters" },
           })}
           className="border p-2 w-full rounded"
         />
@@ -67,12 +77,12 @@ const EditProfileForm = ({ initialData, onSubmit }: EditProfileFormProps) => {
       </div>
 
       <div>
-        <label>Опис:</label>
+        <label>Description:</label>
         <textarea
-          placeholder="Коротко про себе"
+          placeholder="Briefly about myself"
           rows={4}
           {...register("description", {
-            maxLength: { value: 500, message: "Максимум 500 символів" },
+            maxLength: { value: 500, message: "Maximum 500 characters" },
           })}
           className="border p-2 w-full rounded"
         />
@@ -85,7 +95,7 @@ const EditProfileForm = ({ initialData, onSubmit }: EditProfileFormProps) => {
         type="submit"
         className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
       >
-        Зберегти зміни
+        Save changes
       </button>
     </form>
   );

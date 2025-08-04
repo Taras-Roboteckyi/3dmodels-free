@@ -1,5 +1,7 @@
 "use client";
+import React, { useState, useEffect } from "react";
 
+import { getSession } from "next-auth/react";
 import { getServerSession } from "next-auth/next";
 import { useSession } from "next-auth/react";
 
@@ -11,8 +13,23 @@ import { authOptions } from "../../../../utils/auth-options";
 export default function ProfilePage() {
   const { data: session, update } = useSession(); // для оновлення session
   //const session = await getServerSession(authOptions);
+  const [formData, setFormData] = useState({
+    name: "",
+    surname: "",
+    description: "",
+  });
+  // ⚠️ Дочекатися, поки session завантажиться
+  useEffect(() => {
+    if (session?.user) {
+      setFormData({
+        name: session.user.name || "",
+        surname: session.user.surname || "",
+        description: session.user.description || "",
+      });
+    }
+  }, [session]);
 
-  if (!session) {
+  if (!session || !formData.name) {
     return <div>Loading...</div>; // або Loading spinner
   }
 
@@ -31,6 +48,14 @@ export default function ProfilePage() {
       }
 
       await update(); // 🔁 оновлення session
+      const newSession = await getSession(); // ⬅️ Отримуємо оновлену сесію з актуальними даними
+
+      // ✅ ОНОВЛЮЄМО formData — це оновить `initialData` в формі
+      setFormData({
+        name: newSession?.user.name || "",
+        surname: newSession?.user.surname || "",
+        description: newSession?.user.description || "",
+      });
       alert("Profile successfully updated!");
     } catch (error) {
       console.error("Update error:", error);
@@ -57,14 +82,7 @@ export default function ProfilePage() {
           <UploadAvatar />
         </div>
 
-        <EditProfileForm
-          initialData={{
-            name: session.user.name || "",
-            surname: session.user.surname || "",
-            description: session.user.description || "",
-          }}
-          onSubmit={handleSubmit}
-        />
+        <EditProfileForm initialData={formData} onSubmit={handleSubmit} />
       </div>
     </div>
   );

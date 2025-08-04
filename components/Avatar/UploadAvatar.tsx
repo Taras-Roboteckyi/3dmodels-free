@@ -100,7 +100,9 @@ export default function UploadAvatar() {
 
       {/* Повідомлення */}
       {uploadedUrl && (
-        <p className="text-green-600 text-sm">Фото успішно завантажено!</p>
+        <p className="text-green-600 text-sm">
+          Profile photo successfully uploaded!
+        </p>
       )}
     </div>
   );
