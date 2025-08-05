@@ -9,26 +9,26 @@ type FormValues = {
 };
 
 type EditProfileFormProps = {
-  initialData: FormValues;
+  /* initialData: FormValues; */
 
   onSubmit: (formData: FormData) => void | Promise<void>;
 };
 
-const EditProfileForm = ({ initialData, onSubmit }: EditProfileFormProps) => {
+const EditProfileForm = ({
+  /* initialData, */ onSubmit,
+}: EditProfileFormProps) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<FormValues>({
-    defaultValues: initialData,
-  });
+  } = useForm<FormValues>();
 
   // 👇 ОНОВЛЮЄ форму, якщо initialData змінюється
-  useEffect(() => {
+  /*  useEffect(() => {
     console.log("initialData змінилось", initialData);
     reset(initialData);
-  }, [initialData, reset]);
+  }, [initialData, reset]); */
 
   const onValidSubmit = (data: FormValues) => {
     const formData = new FormData(); //стандартний Web API, який дозволяє створювати об'єкт з полями форми. FormData — зручно передає текст і файли на бекенд
@@ -37,6 +37,7 @@ const EditProfileForm = ({ initialData, onSubmit }: EditProfileFormProps) => {
     formData.append("description", data.description);
 
     onSubmit(formData);
+    reset(); // очищає форму після відправки
   };
 
   return (
@@ -53,6 +54,7 @@ const EditProfileForm = ({ initialData, onSubmit }: EditProfileFormProps) => {
           {...register("name", {
             required: "The first name is required",
             minLength: { value: 2, message: "Minimum 2 characters" },
+            maxLength: { value: 12, message: "Maximum 12 characters" },
           })}
           className="border p-2 w-full rounded"
         />

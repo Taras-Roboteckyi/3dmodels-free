@@ -13,13 +13,13 @@ import { authOptions } from "../../../../utils/auth-options";
 export default function ProfilePage() {
   const { data: session, update } = useSession(); // для оновлення session
   //const session = await getServerSession(authOptions);
-  const [formData, setFormData] = useState({
+  /*  const [formData, setFormData] = useState({
     name: "",
     surname: "",
     description: "",
-  });
+  }); */
   // ⚠️ Дочекатися, поки session завантажиться
-  useEffect(() => {
+  /*   useEffect(() => {
     if (session?.user) {
       setFormData({
         name: session.user.name || "",
@@ -27,9 +27,9 @@ export default function ProfilePage() {
         description: session.user.description || "",
       });
     }
-  }, [session]);
+  }, [session]); */
 
-  if (!session || !formData.name) {
+  if (!session /* || !formData.name */) {
     return <div>Loading...</div>; // або Loading spinner
   }
 
@@ -51,11 +51,11 @@ export default function ProfilePage() {
       const newSession = await getSession(); // ⬅️ Отримуємо оновлену сесію з актуальними даними
 
       // ✅ ОНОВЛЮЄМО formData — це оновить `initialData` в формі
-      setFormData({
+      /*   setFormData({
         name: newSession?.user.name || "",
         surname: newSession?.user.surname || "",
         description: newSession?.user.description || "",
-      });
+      }); */
       alert("Profile successfully updated!");
     } catch (error) {
       console.error("Update error:", error);
@@ -68,7 +68,7 @@ export default function ProfilePage() {
       <h1 className="text-2xl font-semibold ">Мій профіль</h1>
 
       <div className=" tablet:flex  items-center mt-6">
-        <div className=" tablet:flex items-center gap-2 mb-4">
+        <div className=" tablet:flex items-center gap-2 mb-4 mr-10 desktop:mr-40">
           <div className="relative w-100 h-60 rounded-3 overflow-hidden mb-5 tablet:w-80 tablet:h-80 tablet:mb-0">
             <UserAvatar
               image={session.user.image || undefined}
@@ -82,7 +82,7 @@ export default function ProfilePage() {
           <UploadAvatar />
         </div>
 
-        <EditProfileForm initialData={formData} onSubmit={handleSubmit} />
+        <EditProfileForm /* initialData={formData} */ onSubmit={handleSubmit} />
       </div>
     </div>
   );
