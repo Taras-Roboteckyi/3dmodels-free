@@ -58,7 +58,7 @@ export default function UploadAvatar() {
     <div className="flex flex-col items-center gap-4">
       {/* Вибрати файл */}
       <label
-        className={`inline-block px-4 py-2 rounded text-white transition ${
+        className={`inline-block px-4 py-2 rounded text-white transition whitespace-nowrap ${
           loading || fileSelected
             ? "bg-gray-300 text-gray-500 cursor-not-allowed"
             : "bg-blue-600 hover:bg-blue-700 cursor-pointer"
@@ -89,7 +89,7 @@ export default function UploadAvatar() {
       <button
         onClick={handleUpload}
         disabled={!fileSelected || loading}
-        className={`px-4 py-2 rounded text-white transition ${
+        className={`px-5 py-2 rounded text-white transition ${
           !fileSelected || loading
             ? "bg-gray-300 text-gray-500 cursor-not-allowed"
             : "bg-green-600 hover:bg-green-700"

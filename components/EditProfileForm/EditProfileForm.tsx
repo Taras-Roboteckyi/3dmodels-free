@@ -93,12 +93,14 @@ const EditProfileForm = ({
         )}
       </div>
 
-      <button
-        type="submit"
-        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
-      >
-        Save changes
-      </button>
+      <div className="flex justify-center mt-4 tablet:justify-start">
+        <button
+          type="submit"
+          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+        >
+          Save Changes
+        </button>
+      </div>
     </form>
   );
 };
