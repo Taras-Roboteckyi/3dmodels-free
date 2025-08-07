@@ -14,7 +14,6 @@ export default function UserAvatar({
   image,
   name = "User",
   size = 40,
-  styleClass = "",
   fill = false,
 }: UserAvatarProps) {
   // Якщо не передано зображення, генеруємо аватарку за допомогою UI Avatars

@@ -67,8 +67,8 @@ export default function ProfilePage() {
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-semibold ">Мій профіль</h1>
 
-      <div className=" tablet:flex  items-center mt-6">
-        <div className="mr-0 mb-10 tablet:flex items-center gap-10 tablet:mb-0 tablet:mr-16 desktop:mr-20">
+      <div className="items-center mt-6  tablet:flex  ">
+        <div className="mr-0 mb-10 items-center gap-10 tablet:flex  tablet:mb-0 tablet:mr-16 desktop:mr-20">
           <div className="relative w-100 h-60 rounded-3 overflow-hidden mb-5 tablet:w-80 tablet:h-80 tablet:mb-0">
             <UserAvatar
               image={session.user.image || undefined}
