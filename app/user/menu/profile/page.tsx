@@ -65,7 +65,10 @@ export default function ProfilePage() {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-semibold ">Мій профіль</h1>
+      <h1 className="text-2xl font-semibold ">
+        Hello {session.user.name || "User"} {""}
+        {session.user.surname || " "}
+      </h1>
 
       <div className="items-center mt-6  tablet:flex  ">
         <div className="mr-0 mb-10 items-center gap-10 tablet:flex  tablet:mb-0 tablet:mr-16 desktop:mr-20">

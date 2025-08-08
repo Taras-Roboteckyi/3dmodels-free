@@ -58,13 +58,13 @@ export default function UploadAvatar() {
     <div className="flex flex-col items-center gap-4">
       {/* Вибрати файл */}
       <label
-        className={`inline-block px-4 py-2 rounded text-white transition whitespace-nowrap ${
+        className={`inline-block px-9 py-2 rounded text-white transition whitespace-nowrap ${
           loading || fileSelected
             ? "bg-gray-300 text-gray-500 cursor-not-allowed"
             : "bg-blue-600 hover:bg-blue-700 cursor-pointer"
         }`}
       >
-        Вибрати файл
+        Open file
         <input
           type="file"
           accept="image/*"
@@ -95,13 +95,14 @@ export default function UploadAvatar() {
             : "bg-green-600 hover:bg-green-700"
         }`}
       >
-        {loading ? "Завантаження..." : "Завантажити"}
+        {loading ? "Loading..." : "Upload photo"}
       </button>
 
       {/* Повідомлення */}
       {uploadedUrl && (
-        <p className="text-green-600 text-sm">
-          Profile photo successfully uploaded!
+        <p className="text-green-600 text-sm text-wrap whitespace-normal">
+          Profile photo <br />
+          successfully uploaded!
         </p>
       )}
     </div>
