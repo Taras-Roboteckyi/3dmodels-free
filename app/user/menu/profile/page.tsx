@@ -65,11 +65,15 @@ export default function ProfilePage() {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-semibold ">
+      <h1 className="text-xl font-semibold ">
         Hello {session.user.name || "User"} {""}
         {session.user.surname || " "}
       </h1>
-
+      <p className="text-gray-600">
+        This is the user profile page, where you can update your personal
+        information — including first name, last name, profile avatar, and a
+        brief description about yourself.
+      </p>
       <div className="items-center mt-6  tablet:flex  ">
         <div className="mr-0 mb-10 items-center gap-10 tablet:flex  tablet:mb-0 tablet:mr-16 desktop:mr-20">
           <div className="relative w-100 h-60 rounded-3 overflow-hidden mb-5 tablet:w-80 tablet:h-80 tablet:mb-0">
