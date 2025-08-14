@@ -1,4 +1,5 @@
 import Header from "@components/Header/Header";
+/* import UploadsPage from "@components/Uploads/UploadsPage"; */
 import React from "react";
 
 export default function uploadsPage() {
@@ -6,7 +7,7 @@ export default function uploadsPage() {
     <div>
       <Header />
       <h1 className="text-2xl font-semibold">Мої завантаження</h1>
-      {/* Тут контент профілю */}
+      {/* <UploadsPage /> */}
     </div>
   );
 }
