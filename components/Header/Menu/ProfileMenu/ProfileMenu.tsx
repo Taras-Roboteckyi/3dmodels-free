@@ -89,7 +89,10 @@ const ProfileMenu = ({ menuAnchor, closeMenu, signOut }: Props) => {
         Мій профіль
       </MenuItem>
 
-      <MenuItem onClick={() => handleNavigate("/uploads")} sx={menuItemStyle}>
+      <MenuItem
+        onClick={() => handleNavigate("/user/menu/uploads")}
+        sx={menuItemStyle}
+      >
         <ListItemIcon>
           <CloudUploadIcon fontSize="small" />
         </ListItemIcon>

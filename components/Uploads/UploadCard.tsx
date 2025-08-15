@@ -14,7 +14,13 @@ export default function UploadCard({
 }: UploadValues) {
   return (
     <div className="bg-white rounded-lg shadow hover:shadow-lg transition p-4 flex flex-col">
-      <Image src={preview} alt="Preview" className="rounded-lg mb-4" />
+      <Image
+        src={preview}
+        alt="Preview"
+        width={40}
+        height={40}
+        className="rounded-lg mb-4"
+      />
       <h2 className="font-semibold truncate">{name}</h2>
       <p className="text-sm text-gray-500">Завантажено: {date}</p>
       <p className="text-sm text-gray-500">Розмір: {size}</p>

@@ -4,8 +4,8 @@ import UploadDropzone from "./UploadDropzone";
 
 export default function UploadsPage() {
   const files = [
-    { name: "model1.glb", date: "2025-08-11", size: "2.4 MB", preview: "..." },
-    { name: "texture.jpg", date: "2025-08-09", size: "1.1 MB", preview: "..." },
+    { name: "model1.glb", date: "2025-08-11", size: "2.4 MB", preview: "/" },
+    { name: "texture.jpg", date: "2025-08-09", size: "1.1 MB", preview: "/" },
   ];
 
   return (

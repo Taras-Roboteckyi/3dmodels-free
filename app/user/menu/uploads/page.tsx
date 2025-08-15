@@ -1,13 +1,12 @@
 import Header from "@components/Header/Header";
-/* import UploadsPage from "@components/Uploads/UploadsPage"; */
+import UploadsPage from "@components/Uploads/UploadsPage";
 import React from "react";
 
 export default function uploadsPage() {
   return (
     <div>
-      <Header />
       <h1 className="text-2xl font-semibold">Мої завантаження</h1>
-      {/* <UploadsPage /> */}
+      <UploadsPage />
     </div>
   );
 }
