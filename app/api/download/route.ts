@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { connectToDB } from "@lib/database";
-/* import Download from "@/models/Download";
-import Model from "@/models/Model"; */
+import Download from "@models/Download";
+import Model3D from "@models/Models3D";
 
 export async function POST(req: Request) {
   await connectToDB();
@@ -25,7 +25,7 @@ export async function POST(req: Request) {
     });
 
     // інкрементуємо кількість завантажень у моделі
-    await Model.findByIdAndUpdate(modelId, { $inc: { downloads: 1 } });
+    await Model3D.findByIdAndUpdate(modelId, { $inc: { downloads: 1 } });
 
     return NextResponse.json({ success: true, download });
   } catch (err) {
