@@ -33,7 +33,8 @@
     "**/*.tsx",
     "types/**/*.d.ts",
     ".next/types/**/*.ts",
-    "app/user/menu/uploads"
+    "app/user/menu/uploads",
+    "app/api/models/[id]/[id]"
   ],
   "exclude": ["node_modules"]
 }
