@@ -46,3 +46,22 @@ export async function PUT(
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }
+
+// DELETE /api/models/:id → видалити модель
+export async function DELETE(
+  req: Request,
+  { params }: { params: { id: string } }
+) {
+  try {
+    await connectToDB();
+    const deleted = await Model3D.findByIdAndDelete(params.id);
+
+    if (!deleted) {
+      return NextResponse.json({ error: "Model not found" }, { status: 404 });
+    }
+
+    return NextResponse.json({ message: "Model deleted" }, { status: 200 });
+  } catch (err: any) {
+    return NextResponse.json({ error: err.message }, { status: 500 });
+  }
+}
