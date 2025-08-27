@@ -1,6 +1,7 @@
 import mongoose, { Schema, model, models } from "mongoose";
 
 const Model3DSchema = new Schema({
+  //привязка до користувача
   userId: {
     type: Schema.Types.ObjectId,
     ref: "User",
