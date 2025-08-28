@@ -99,7 +99,10 @@ const ProfileMenu = ({ menuAnchor, closeMenu, signOut }: Props) => {
         Завантаження
       </MenuItem>
 
-      <MenuItem onClick={() => handleNavigate("/models")} sx={menuItemStyle}>
+      <MenuItem
+        onClick={() => handleNavigate("/user/menu/models")}
+        sx={menuItemStyle}
+      >
         <ListItemIcon>
           <ViewInArIcon fontSize="small" />
         </ListItemIcon>
