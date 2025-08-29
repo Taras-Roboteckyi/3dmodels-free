@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 interface Model3D {
-  _id: string;
+  userId: string;
   title: string;
   description?: string;
   modelUrl: string;
@@ -43,7 +43,7 @@ export default function ModelsPage() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {models.map((model) => (
-            <Link key={model._id} href={`/models/${model._id}`}>
+            <Link key={model.userId} href={`/models/${model.userId}`}>
               <div className="border rounded-lg p-4 shadow hover:shadow-lg transition cursor-pointer">
                 {model.thumbnailUrl && (
                   <Image
