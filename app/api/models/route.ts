@@ -15,7 +15,9 @@ export async function GET() {
     }
 
     await connectToDB();
-    const models = await Model3D.find({ userId: session.user.id });
+    const models = await Model3D.find({ userId: session.user.id }).sort({
+      createdAt: -1, // Сортуємо, щоб нові моделі йшли першими;
+    });
 
     return new Response(JSON.stringify(models), { status: 200 });
   } catch (err) {
@@ -77,12 +79,16 @@ export async function POST(req: Request) {
     await connectToDB();
     const body = await req.json();
 
+    if (!body.modelUrl) {
+      return Response.json({ error: "Model URL is required" }, { status: 400 });
+    }
+
     const newModel = await Model3D.create({
       userId: session.user.id, // 🔑 прив’язка до користувача
-      title: body.title,
-      description: body.description,
+      title: body.title || "Untitled Model",
+      description: body.description || "",
       modelUrl: body.modelUrl,
-      thumbnailUrl: body.thumbnailUrl,
+      thumbnailUrl: body.thumbnailUrl || "",
       tags: body.tags || [],
     });
 
