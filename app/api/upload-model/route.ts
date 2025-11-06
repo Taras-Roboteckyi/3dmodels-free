@@ -51,4 +51,18 @@ export async function POST(req: Request) {
         )
         .end(buffer);
     });
-    
+    // 💾 Зберігаємо у MongoDB
+    const newModel = await Model3D.create({
+      userId: session.user.id,
+      title,
+      description,
+      modelUrl: uploadResponse.secure_url,
+      thumbnailUrl: uploadResponse.secure_url, // можна додати прев’ю пізніше
+    });
+
+    return NextResponse.json(newModel, { status: 201 });
+  } catch (error) {
+    console.error("Upload failed:", error);
+    return NextResponse.json({ error: "Upload failed" }, { status: 500 });
+  }
+}
