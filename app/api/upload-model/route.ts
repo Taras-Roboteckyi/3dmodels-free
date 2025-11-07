@@ -3,66 +3,50 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@utils/auth-options";
 import { connectToDB } from "@lib/database";
 import Model3D from "@models/Models3D";
-import { v2 as cloudinary } from "cloudinary";
-
-// 🔹 Конфігурація Cloudinary
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME!,
-  api_key: process.env.CLOUDINARY_API_KEY!,
-  api_secret: process.env.CLOUDINARY_API_SECRET!,
-});
+import cloudinary from "@lib/cloudinary";
 
 export async function POST(req: Request) {
-  try {
-    // 🔑 Перевірка сесії користувача
-    const session = await getServerSession(authOptions);
-    if (!session) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    // 🔗 Підключення до бази
-    await connectToDB();
-
-    // 🧾 Отримуємо FormData
-    const formData = await req.formData();
-    const file = formData.get("file") as File | null;
-    const title = formData.get("title") as string;
-    const description = formData.get("description") as string;
-
-    if (!file) {
-      return NextResponse.json({ error: "No file uploaded" }, { status: 400 });
-    }
-
-    // 📤 Завантаження файлу у Cloudinary
-    const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-
-    const uploadResponse = await new Promise<any>((resolve, reject) => {
-      cloudinary.uploader
-        .upload_stream(
-          {
-            resource_type: "auto", // підтримує GLB/GLTF/STL/OBJ
-            folder: "models",
-          },
-          (error, result) => {
-            if (error) reject(error);
-            else resolve(result);
-          }
-        )
-        .end(buffer);
-    });
-    // 💾 Зберігаємо у MongoDB
-    const newModel = await Model3D.create({
-      userId: session.user.id,
-      title,
-      description,
-      modelUrl: uploadResponse.secure_url,
-      thumbnailUrl: uploadResponse.secure_url, // можна додати прев’ю пізніше
-    });
-
-    return NextResponse.json(newModel, { status: 201 });
-  } catch (error) {
-    console.error("Upload failed:", error);
-    return NextResponse.json({ error: "Upload failed" }, { status: 500 });
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
+
+  await connectToDB();
+
+  const formData = await req.formData();
+  const title = formData.get("title") as string;
+  const description = formData.get("description") as string;
+  const modelFile = formData.get("model") as File;
+
+  const previewFiles: File[] = [];
+  for (let i = 0; i < 3; i++) {
+    const file = formData.get(`preview_${i}`);
+    if (file instanceof File) previewFiles.push(file);
+  }
+
+  // Upload model ZIP
+  const modelUpload = await cloudinary.uploader.upload(await modelFile.stream(), {
+    resource_type: "raw",
+    folder: "models",
+  });
+
+  // Upload preview images
+  const previewUrls = [];
+  for (const img of previewFiles) {
+    const upload = await cloudinary.uploader.upload(await img.stream(), {
+      resource_type: "image",
+      folder: "model-previews",
+    });
+    previewUrls.push(upload.secure_url);
+  }
+
+  const newModel = await Model3D.create({
+    userId: session.user.id,
+    title,
+    description,
+    modelUrl: modelUpload.secure_url,
+    previewImages: previewUrls,
+  });
+
+  return NextResponse.json(newModel, { status: 201 });
 }
