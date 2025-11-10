@@ -3,7 +3,27 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@utils/auth-options";
 import { connectToDB } from "@lib/database";
 import Model3D from "@models/Models3D";
-import cloudinary from "@lib/cloudinary";
+import { v2 as cloudinary } from "cloudinary";
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME!,
+  api_key: process.env.CLOUDINARY_API_KEY!,
+  api_secret: process.env.CLOUDINARY_API_SECRET!,
+});
+
+async function uploadToCloudinary(file: File, options: Record<string, any>) {
+  const arrayBuffer = await file.arrayBuffer(); //бере файл як "сирі байти"
+  const buffer = Buffer.from(arrayBuffer); //перетворює його у Node.js формат
+
+  return await new Promise((resolve, reject) => {
+    //завантажує цей buffer у Cloudinary
+    const stream = cloudinary.uploader.upload_stream(options, (err, result) => {
+      if (err) reject(err);
+      else resolve(result);
+    });
+    stream.end(buffer);
+  });
+}
 
 export async function POST(req: Request) {
   const session = await getServerSession(authOptions);
@@ -24,27 +44,27 @@ export async function POST(req: Request) {
     if (file instanceof File) previewFiles.push(file);
   }
 
-  // Upload model ZIP
-  const modelUpload = await cloudinary.uploader.upload(await modelFile.stream(), {
-    resource_type: "raw",
+  // Upload model file (STL/STEP/ZIP etc)
+  const modelUpload = await uploadToCloudinary(modelFile, {
     folder: "models",
+    resource_type: "raw",
   });
 
   // Upload preview images
-  const previewUrls = [];
+  const previewUrls: string[] = [];
   for (const img of previewFiles) {
-    const upload = await cloudinary.uploader.upload(await img.stream(), {
-      resource_type: "image",
+    const upload = await uploadToCloudinary(img, {
       folder: "model-previews",
+      resource_type: "image",
     });
-    previewUrls.push(upload.secure_url);
+    previewUrls.push((upload as any).secure_url);
   }
 
   const newModel = await Model3D.create({
     userId: session.user.id,
     title,
     description,
-    modelUrl: modelUpload.secure_url,
+    modelUrl: (modelUpload as any).secure_url,
     previewImages: previewUrls,
   });
 
