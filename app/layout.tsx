@@ -1,4 +1,5 @@
 import "@styles/globals.css";
+import { Toaster } from "react-hot-toast";
 
 import SessionProvider from "@components/Providers/SessionProvider";
 
@@ -23,6 +24,7 @@ export default function RootLayout({
       </head>
       <body>
         <SessionProvider>{children}</SessionProvider>
+        <Toaster position="top-right" toastOptions={{ duration: 3000 }} />
       </body>
     </html>
   );
