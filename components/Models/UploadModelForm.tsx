@@ -10,58 +10,49 @@ export default function UploadModelForm() {
   const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleModelUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) setModelFile(file);
-  };
-
   const handlePreviewUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
-    const files = Array.from((e.target as HTMLInputElement).files ?? []).slice(
-      0,
-      3
-    ); // максимум 3 фото
+    const files = Array.from(e.target.files).slice(0, 3); // максимум 3 фото
     setPreviewImages(files);
   };
 
   const handleSubmit = async () => {
-    if (!modelFile || previewImages.length < 1) {
-      toast.error("Додай модель і хоча б одне прев’ю!");
+    if (!modelFile || previewImages.length === 0) {
+      toast.error("❗ Додай модель і хоча б 3 фото прев'ю");
       return;
     }
 
-    setLoading(true);
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("description", description);
+    formData.append("model", modelFile);
+    previewImages.forEach((file, i) => {
+      formData.append(`preview_${i}`, file);
+    });
 
     try {
-      const formData = new FormData();
-      formData.append("title", title);
-      formData.append("description", description);
-      formData.append("model", modelFile);
-
-      previewImages.forEach((file, i) => {
-        formData.append(`preview_${i}`, file);
-      });
-
+      setLoading(true);
       const res = await fetch("/api/upload-model", {
         method: "POST",
         body: formData,
       });
 
       if (!res.ok) {
-        throw new Error("Помилка завантаження моделі");
+        throw new Error("Помилка при завантаженні моделі");
       }
 
       const data = await res.json();
-      console.log("✅ Uploaded model:", data);
+      toast.success("✅ Модель успішно завантажена!");
+      console.log("Uploaded:", data);
 
-      toast.success("Модель успішно завантажена!");
+      // Очистимо поля після успіху
       setModelFile(null);
       setPreviewImages([]);
       setTitle("");
       setDescription("");
-    } catch (err: any) {
+    } catch (err) {
       console.error(err);
-      toast.error("Помилка при завантаженні!");
+      toast.error("❌ Не вдалося завантажити модель");
     } finally {
       setLoading(false);
     }
