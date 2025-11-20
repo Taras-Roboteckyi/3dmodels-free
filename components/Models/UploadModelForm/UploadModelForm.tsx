@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 
+import { PreviewImages } from "./PreviewImages";
+
 export default function UploadModelForm() {
   const [modelFile, setModelFile] = useState<File | null>(null);
   const [previewImages, setPreviewImages] = useState<File[]>([]);
@@ -76,6 +78,8 @@ export default function UploadModelForm() {
         onChange={handlePreviewUpload}
         className="block mb-3"
       />
+
+      <PreviewImages images={previewImages} />
 
       <input
         type="text"
