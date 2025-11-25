@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
+import ModelViewer from "@components/Models/ModelViewer";
+
 interface Model3D {
   userId: string;
   title: string;
@@ -37,7 +39,7 @@ export default function ModelsPage() {
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-6">Мої 3D моделі</h1>
-
+      <ModelViewer />
       {models.length === 0 ? (
         <p>У вас ще немає моделей.</p>
       ) : (
