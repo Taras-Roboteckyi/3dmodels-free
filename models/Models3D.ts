@@ -16,7 +16,18 @@ const Model3DSchema = new Schema({
     type: String,
     required: true,
   },
-  thumbnailUrl: String,
+  // Одне головне превʼю для списку моделей
+  thumbnailUrl: {
+    type: String,
+    required: true,
+  },
+
+  // Масив усіх превʼю-картинок (2–3 фото)
+  previewImages: {
+    type: [String],
+    default: [],
+  },
+
   tags: [String],
   createdAt: {
     type: Date,
