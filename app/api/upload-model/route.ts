@@ -66,6 +66,7 @@ export async function POST(req: Request) {
     description,
     modelUrl: (modelUpload as any).secure_url,
     previewImages: previewUrls,
+    thumbnailUrl: previewUrls[0], // 🔥 перше фото — превʼю
   });
 
   return NextResponse.json(newModel, { status: 201 });
