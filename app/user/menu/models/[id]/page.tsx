@@ -65,7 +65,7 @@ export default function ModelPage({ params }: { params: { id: string } }) {
 
       {/* 3D Viewer */}
       <div className="mb-8">
-        <ModelViewer fileUrl={model.modelUrl} />
+        <ModelViewer modelUrl={model.modelUrl} />
       </div>
 
       {/* Автор */}

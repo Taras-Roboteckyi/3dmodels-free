@@ -7,22 +7,38 @@ import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader";
 import { Suspense } from "react";
 
 type Props = {
-  url: string;
-  type: "glb" | "obj";
+  modelUrl: string;
 };
 
-/* 🔹 ОКРЕМИЙ компонент для моделі */
-function Model({ url, type }: Props) {
-  const gltf = useLoader(GLTFLoader, url);
-  const obj = useLoader(OBJLoader, url);
+function Model({ modelUrl }: Props) {
+  const isGLB = modelUrl.endsWith(".glb") || modelUrl.endsWith(".gltf");
+  const isOBJ = modelUrl.endsWith(".obj");
 
-  if (type === "glb") {
-    return <primitive object={gltf.scene} scale={1} />;
-  }
+  // hooks БЕЗ умов
+  const gltf = useLoader(GLTFLoader, isGLB ? modelUrl : "");
+  const obj = useLoader(OBJLoader, isOBJ ? modelUrl : "");
 
-  if (type === "obj") {
-    return <primitive object={obj} scale={1} />;
-  }
+  if (isGLB) return <primitive object={gltf.scene} scale={1.5} />;
+  if (isOBJ) return <primitive object={obj} scale={1.5} />;
 
   return null;
+}
+
+export default function ModelViewer({ modelUrl }: Props) {
+  if (!modelUrl) return null;
+
+  return (
+    <div className="w-full h-[500px] bg-gray-900 rounded-lg">
+      <Canvas camera={{ position: [3, 3, 3], fov: 50 }}>
+        <ambientLight intensity={0.6} />
+        <directionalLight position={[5, 5, 5]} intensity={1} />
+
+        <Suspense fallback={null}>
+          <Model modelUrl={modelUrl} />
+        </Suspense>
+
+        <OrbitControls />
+      </Canvas>
+    </div>
+  );
 }
